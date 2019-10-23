@@ -1,0 +1,16 @@
+{
+  "author": "jestra52",
+  "dependencies": {
+    "axios": "0.19.0",
+    "dotenv": "8.2.0",
+    "moment": "2.24.0"
+  },
+  "description": "",
+  "license": "MIT",
+  "main": "app.js",
+  "name": "yt-playlist-report-generator",
+  "scripts": {
+    "start": "node ./app.js"
+  },
+  "version": "1.0.0"
+}
