@@ -4,8 +4,10 @@ const dotenv = require('dotenv');
 const fs = require('fs');
 const moment = require('moment');
 dotenv.config();
+
 // @scripts
 const apiResources = require('./api-resources.json');
+
 // @constants
 const API_KEY = process.env.API_KEY;
 
@@ -89,7 +91,7 @@ const getPlaylistItemsTitle = async (
             const itemPosition = item.snippet.position;
             const itemResult = `${itemPosition + 1}: ${item.snippet.title}`;
 
-            if (item.snippet.title === 'Deleted video')
+            if (item.snippet.title === 'Deleted video' || item.snippet.title === 'Private video')
                 deletedVideos.push(itemResult);
             
             if (itemPosition - positionChecker >= 2)
