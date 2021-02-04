@@ -17,11 +17,11 @@ API_KEY=<Your Google API key>
 
 ## Run
 ```shell
-$ npm start -- <playlist id> <custom filename>
+$ npm start -- <playlist id>
 ```
 
 Or
 
 ```shell
-$ node app.js <playlist id> <custom filename>
+$ node app.js <playlist id>
 ```
