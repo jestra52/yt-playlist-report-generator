@@ -15,6 +15,8 @@ const deletedVideos = [];
 const playlistId = process.argv[2];
 const playlistItems = [];
 let playlistTitle = null;
+let playlistAuthor = null;
+let playlistFullTitle = null;
 let positionChecker = 0;
 
 if (!playlistId) {
@@ -22,14 +24,12 @@ if (!playlistId) {
     process.exit(0);
 }
 
-if (!process.argv[3]) {
-    console.log('Please enter filename argument');
-    process.exit(0);
-}
-
 const generatePlaylistReport = async () => {
+    await getPlaylistItemsTitle(playlistId, true);
+
     const currentTime = moment().format('YYYY-MM-DD__HH-mm-ss');
-    const fileName = `${__dirname}/../${process.argv[3]}-report-${currentTime}.txt`;
+    const playlistCleanTitle = playlistTitle.toLowerCase().replace(/[^A-Z0-9]+/ig, "-");
+    const fileName = `${__dirname}/${playlistCleanTitle}-report-${currentTime}.txt`;
     const writeStream = fs.createWriteStream(fileName);
 
     writeStream.on('error', (err) => {
@@ -37,8 +37,7 @@ const generatePlaylistReport = async () => {
         process.exit(0);
     });
 
-    await getPlaylistItemsTitle(playlistId, true);
-    writeStream.write(`${playlistTitle}\n`);
+    writeStream.write(`${playlistFullTitle}\n`);
     playlistItems.forEach(item => writeStream.write(`${item}\n`));
 
     if (deletedVideos.length > 0) {
@@ -72,7 +71,9 @@ const getPlaylistItemsTitle = async (
                 }
             });
             const { snippet } = data.items[0];
-            playlistTitle = `${snippet.title} by ${snippet.channelTitle}`;
+            playlistTitle = snippet.title;
+            playlistAuthor = snippet.channelTitle;
+            playlistFullTitle =`${snippet.title} by ${snippet.channelTitle}`;
         }
         
         const { data } = await axios.get(apiResources.getPlaylistItems, {
