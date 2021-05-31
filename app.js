@@ -37,7 +37,7 @@ const generatePlaylistReport = async () => {
         process.exit(0);
     });
 
-    writeStream.write(`${playlistFullTitle}\n`);
+    writeStream.write(`${playlistFullTitle}\nTotal videos: ${playlistItems.length}\n`);
     playlistItems.forEach(item => writeStream.write(`${item}\n`));
 
     if (deletedVideos.length > 0) {
